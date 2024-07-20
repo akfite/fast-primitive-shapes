@@ -6,6 +6,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, N)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, r)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius)
+%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, N)
 %
 %   Inputs:
 %
