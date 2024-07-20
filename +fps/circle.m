@@ -1,4 +1,4 @@
-function [xdata, ydata] = circle(x, y, radius, varargin)
+function [xdata, ydata] = circle(x, y, radius, N)
 %CIRCLE Create data for plotting circles.
 %
 %   Usage:
@@ -46,6 +46,13 @@ function [xdata, ydata] = circle(x, y, radius, varargin)
 %   Author:     Austin Fite
 %   Contact:    akfite@gmail.com
 
-    [xdata, ydata] = fps.ellipse(x, y, radius, radius, varargin{:});
+    arguments
+        x(1,:) {mustBeReal}
+        y(1,:) {mustBeReal} = x
+        radius(1,:) {mustBeReal} = 1
+        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 4)} = 100
+    end
+
+    [xdata, ydata] = fps.ellipse(x, y, radius, radius, N);
 
 end
