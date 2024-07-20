@@ -1,5 +1,5 @@
 function varargout = vector(origin, direction)
-%VECTOR Reshapes vector data into a form ready to use with plot, plot3, etc
+%VECTOR Reshapes vector data into a form ready to use with line, plot, plot3, etc
 %
 %   Usage:
 %
@@ -10,12 +10,12 @@ function varargout = vector(origin, direction)
 %       origin <NxD numeric>
 %           - the starting point for each vector
 %           - matrix where columns are vector components, rows index the vectors
-%           - e.g. Nx3 is N 3-dimensional vectors
+%           - e.g. Nx3 for N 3-dimensional vectors
 %
 %       direction <NxD numeric>
 %           - the direction for each vector
 %           - matrix where columns are vector components, rows index the vectors
-%           - e.g. Nx3 is N 3-dimensional vectors
+%           - e.g. Nx3 for N 3-dimensional vectors
 %
 %   Outputs:
 %
@@ -72,7 +72,7 @@ function varargout = vector(origin, direction)
     vector_dims = size(origin, 2);
     num_lines = size(origin, 1);
 
-    % vector end point
+    % find vector end point
     head = origin + direction;
 
     % write to separate vars for compatibility with plot, plot3, etc
