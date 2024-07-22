@@ -32,7 +32,7 @@ function varargout = line(varargin)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.ELLIPSE(1:100, 1:100, 10*rand(1,100));
+%       [xd, yd] = fps.line(rand(100,2), rand(100,2));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');
@@ -67,7 +67,7 @@ function varargout = line(varargin)
                 arg', ...
                 nan(1, size(arg, 1)));
         else
-            % more than two points per line requires a little more work
+            % more than two points per line requires calling linspace for each pair
             data = nan(N+1, size(arg,1)); % pre-allocate
 
             for j = 1:size(arg,1)
