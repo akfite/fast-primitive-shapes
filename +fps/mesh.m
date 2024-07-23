@@ -60,6 +60,8 @@ function varargout = mesh(faces, vertices)
     % pre-allocate line index array
     lines = zeros(numel(faces), 2, 'uint32');
 
+    % strip each edge from the faces array to form Nx2 vectors of coordinate pairs,
+    % where N is the number of edges that exist in the mesh
     for iedge = 1:size(faces,2)
         istart = (iedge-1) * n_faces + 1;
         iend = iedge * n_faces;
