@@ -58,7 +58,9 @@ function varargout = mesh(faces, vertices)
     n_edges_per_face = size(faces,2);
 
     % pre-allocate line index array
-    lines = zeros(numel(faces), 2, 'uint32');
+    n_lines = numel(faces);
+    line_start_index = zeros(n_lines, 1, 'uint32');
+    line_end_index = zeros(n_lines, 1, 'uint32');
 
     % strip each edge from the faces array to form Nx2 vectors of coordinate pairs,
     % where N is the number of edges that exist in the mesh
@@ -66,16 +68,16 @@ function varargout = mesh(faces, vertices)
         istart = (iedge-1) * n_faces + 1;
         iend = iedge * n_faces;
 
-        lines(istart:iend, 1) = faces(:, iedge);
-        lines(istart:iend, 2) = faces(:, 1+mod(iedge, n_edges_per_face));
+        line_start_index(istart:iend) = faces(:, iedge);
+        line_end_index(istart:iend) = faces(:, 1+mod(iedge, n_edges_per_face));
     end
 
     % convert line indices to vertex locations
     for idim = size(vertices,2):-1:1
         varargout{idim} = vertcat(...
-            vertices(lines(:,1), idim)', ...
-            vertices(lines(:,2), idim)', ...
-            nan(1, size(lines,1)));
+            vertices(line_start_index, idim)', ...
+            vertices(line_end_index, idim)', ...
+            nan(1, n_lines));
     end
 
 end
