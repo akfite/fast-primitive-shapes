@@ -35,8 +35,8 @@ function [xd, yd] = grid(varargin)
 %   Examples:
 %
 %       % example 1
-%       [xd,yd] = FPS.GRID(1:10);
-%       figure; plot(xd(:), yd(:));
+%       [xd,yd] = FPS.GRID(1:25);
+%       figure; plot(xd(:), yd(:)); axis tight
 %
 %       % example 2
 %       [xd,yd] = FPS.GRID(3.5:7.5, 8.5:15.5);
