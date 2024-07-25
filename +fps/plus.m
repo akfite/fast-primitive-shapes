@@ -69,7 +69,7 @@ function [xd, yd] = plus(x, y, x_radius, y_radius, N)
     y0 = y - y_radius;
     y1 = y + y_radius;
 
-    % expand scalar inputs
+    % expand scalars
     nrep = max(sz);
     if numel(x0) ~= nrep, x0 = repmat(x0, [nrep 1]); end
     if numel(x1) ~= nrep, x1 = repmat(x1, [nrep 1]); end
