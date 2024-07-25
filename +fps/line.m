@@ -12,9 +12,9 @@ function varargout = line(varargin)
 %           - each row is a new line
 %
 %       N (=2) <1x1 integer>
-%           - the number of points to use to represent each line
+%           - the number of points used to draw each line
 %           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as cartesian to spherical coordinates
+%             a transformation, such as spherical to cartesian coordinates
 %
 %   Outputs:
 %
