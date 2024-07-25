@@ -71,12 +71,12 @@ function [xd, yd] = plus(x, y, x_radius, y_radius, N)
 
     % expand scalars
     nrep = max(sz);
-    if numel(x0) ~= nrep, x0 = repmat(x0, [nrep 1]); end
-    if numel(x1) ~= nrep, x1 = repmat(x1, [nrep 1]); end
-    if numel(y0) ~= nrep, y0 = repmat(y0, [nrep 1]); end
-    if numel(y1) ~= nrep, y1 = repmat(y1, [nrep 1]); end
-    if numel(x) ~= nrep, x = repmat(x, [nrep 1]); end
-    if numel(y) ~= nrep, y = repmat(y, [nrep 1]); end
+    if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
+    if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
+    if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
+    if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
+    if isscalar(x), x = repmat(x, [nrep 1]); end
+    if isscalar(y), y = repmat(y, [nrep 1]); end
     
     % create coordinate pairs for the vertical line, then horizontal line
     xpairs = [

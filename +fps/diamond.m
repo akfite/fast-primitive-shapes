@@ -20,7 +20,7 @@ function [xd, yd] = diamond(x, y, x_radius, y_radius, N)
 %           - the number of points used to draw each line
 %           - more than 2 points can be useful if the output data will undergo
 %             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per rectangle will be N*4
+%           - the total number of points per diamond will be N*4
 %
 %   Outputs:
 %
@@ -71,12 +71,12 @@ function [xd, yd] = diamond(x, y, x_radius, y_radius, N)
 
     % expand scalars
     nrep = max(sz);
-    if numel(x0) ~= nrep, x0 = repmat(x0, [nrep 1]); end
-    if numel(x1) ~= nrep, x1 = repmat(x1, [nrep 1]); end
-    if numel(y0) ~= nrep, y0 = repmat(y0, [nrep 1]); end
-    if numel(y1) ~= nrep, y1 = repmat(y1, [nrep 1]); end
-    if numel(x) ~= nrep, x = repmat(x, [nrep 1]); end
-    if numel(y) ~= nrep, y = repmat(y, [nrep 1]); end
+    if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
+    if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
+    if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
+    if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
+    if isscalar(x), x = repmat(x, [nrep 1]); end
+    if isscalar(y), y = repmat(y, [nrep 1]); end
     
     % create coordinate pairs for lines starting at bottom
     % and moving counter-clockwise around the diamond
