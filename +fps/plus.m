@@ -1,31 +1,31 @@
-function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
-%RECTANGLE Create data for plotting rectangles (and therefore also squares)
+function [xd, yd] = plus(x, y, x_radius, y_radius, N)
+%PLUS Create data for plotting plus-signs
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.RECTANGLE(x, y)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, r)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius, N)
+%       [xdata, ydata] = FPS.PLUS(x, y)
+%       [xdata, ydata] = FPS.PLUS(x, y, r)
+%       [xdata, ydata] = FPS.PLUS(x, y, x_radius, y_radius)
+%       [xdata, ydata] = FPS.PLUS(x, y, x_radius, y_radius, N)
 %
 %   Inputs:
 %
 %       x, y <numeric vector>
-%           - the center coordinates for each rectangle
+%           - the center coordinates for each plus-sign
 %
 %       x_radius, y_radius <numeric vectors>
-%           - the half-width and half-height for each rectangle
+%           - the half-width and half-height for each plus-sign
 %
 %       N (=2) <1x1 integer>
 %           - the number of points used to draw each line
 %           - more than 2 points can be useful if the output data will undergo
 %             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per rectangle will be N*4
+%           - the total number of points per plus-sign will be N*2
 %
 %   Outputs:
 %
 %       xdata, ydata <numeric matrix>
-%           - one column for each rectangle, with a NaN as the last element
+%           - one column for each plus, with a NaN as the last element
 %           - you can use these arrays directly with plot() and line(), however
 %             take note of the difference in how to make the call:
 %
@@ -38,12 +38,12 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.RECTANGLE(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
+%       [xd, yd] = FPS.PLUS(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');
 %
-%   See also FPS.LINE, FPS.PLUS
+%   See also FPS.RECTANGLE
 
 %   Author:     Austin Fite
 %   Contact:    akfite@gmail.com
@@ -75,21 +75,18 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
     if numel(x1) ~= nrep, x1 = repmat(x1, [nrep 1]); end
     if numel(y0) ~= nrep, y0 = repmat(y0, [nrep 1]); end
     if numel(y1) ~= nrep, y1 = repmat(y1, [nrep 1]); end
+    if numel(x) ~= nrep, x = repmat(x, [nrep 1]); end
+    if numel(y) ~= nrep, y = repmat(y, [nrep 1]); end
     
-    % create coordinate pairs for lines starting at bottom-left corner
-    % and moving counter-clockwise around the rectangle
+    % create coordinate pairs for the vertical line, then horizontal line
     xpairs = [
-        x0 x0
+        x  x
         x0 x1
-        x1 x1
-        x1 x0
         ];
 
     ypairs = [
         y0 y1
-        y1 y1
-        y1 y0
-        y0 y0
+        y  y
         ];
 
     [xd, yd] = fps.line(xpairs, ypairs, N);
