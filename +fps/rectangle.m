@@ -71,10 +71,12 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
 
     % expand scalars
     nrep = max(sz);
-    if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
-    if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
-    if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
-    if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
+    if nrep > 1
+        if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
+        if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
+        if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
+        if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
+    end
     
     % create coordinate pairs for lines starting at bottom-left corner
     % and moving counter-clockwise around the rectangle

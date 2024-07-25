@@ -48,9 +48,9 @@ function [xdata, ydata] = square(x, y, radius, N)
 %   Contact:    akfite@gmail.com
 
     arguments
-        x(1,:) {mustBeReal}
-        y(1,:) {mustBeReal} = x
-        radius(1,:) {mustBeReal} = 1
+        x(:,1) {mustBeReal}
+        y(:,1) {mustBeReal} = x
+        radius(:,1) {mustBeReal} = 1
         N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 2)} = 2
     end
 
