@@ -22,16 +22,22 @@ radius = 0.5;
 [xdata, ydata] = fps.circle(x(:), y(:), radius);
 ```
 
-Then we can choose to either plot each shape (circle) as its own handle (which is relatively slow):
+If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop, which is relatively slow but sometimes desirable:
 ```
 plot(xdata, ydata)
 ```
 
 ![](doc/circles_multi.png?raw=true)
 
-But in most cases, if we want to take advantage of the power of this library we'll need to flush `xdata` and `ydata` to a column vector.  This will interleave `NaN`s between the shapes, allowing us to plot everything as one line object 🚀:
+But if we want to take advantage of the power of these functions we'll need to flush `xdata` and `ydata` to column vectors using the `colon` operator.  This will interleave `NaN`s between the shapes which will result in all of the shapes plotted under a single handle--much faster!
 
 ```
 plot(xdata(:), ydata(:))
 ```
 ![](doc/circles_one.png?raw=true)
+
+## Benchmark
+
+Running the included script `test/fps_benchmark.m`, we can see why keeping the number of handles plotted to a minimum is important for performance.  Note I ran this with 15 trials and took the median, but the included script has `n_trials`=1.
+
+![](doc/benchmark.png?raw=true)
