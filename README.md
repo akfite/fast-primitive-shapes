@@ -27,17 +27,17 @@ If these arrays are passed as-is to `plot` or `line`, it works similarly to plot
 plot(xdata, ydata)
 ```
 
-![](doc/circles_multi.png?raw=true)
+![](doc/circles_multi.png)
 
 But if we want to take advantage of the power of these functions we'll need to flush `xdata` and `ydata` to column vectors using the `colon` operator.  This will interleave `NaN`s between the shapes which will result in all of the shapes plotted under a single handle--much faster!
 
 ```
 plot(xdata(:), ydata(:))
 ```
-![](doc/circles_one.png?raw=true)
+![](doc/circles_one.png)
 
 ## Benchmark
 
 Running the included script `test/fps_benchmark.m`, we can see why keeping the number of handles plotted to a minimum is important for performance.  Note I ran this with 15 trials and took the median, but the included script has `n_trials`=1.
 
-![](doc/benchmark.png?raw=true)
+![](doc/benchmark.png)
