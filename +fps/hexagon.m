@@ -3,9 +3,9 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.HEXAGON(x, y)
-%       [xdata, ydata] = FPS.HEXAGON(x, y, r)
-%       [xdata, ydata] = FPS.HEXAGON(x, y, x_radius, y_radius)
+%       [xdata, ydata] = FPS.HEXAGON(x, y, opts...)
+%       [xdata, ydata] = FPS.HEXAGON(x, y, r, opts...)
+%       [xdata, ydata] = FPS.HEXAGON(x, y, x_radius, y_radius, opts...)
 %       [xdata, ydata] = FPS.HEXAGON(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
