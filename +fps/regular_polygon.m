@@ -14,9 +14,8 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
 %           - the radii of the ellipse that circumscribes the polygon
 %
 %       n_sides <1x1 integer>
-%           - the number of points to use to plot each ellipse
-%           - affects the smoothness
-%           - must be greater than or equal to 4 (to prevent degenerate shapes)
+%           - the number of sides in the polygon (also the number of vertices)
+%           - for example, with n_sides=6 we will generate hexagons
 %
 %   Inputs (optional param-value pairs):
 %
@@ -26,6 +25,9 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
 %             to draw the shape without changing the underlying shape
 %           - for instance with N=3, an additional point will be added at the
 %             midpoint of each side of the polygon
+%           - this is mainly useful if the polygon data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
 %
 %       'Rotation' (=0) <1x1 double>
 %           - the rotation of each polygon about its center point
