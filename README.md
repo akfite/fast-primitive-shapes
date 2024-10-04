@@ -42,8 +42,8 @@ Running the included script `test/fps_benchmark.m`, we can see why keeping the n
 
 ![](doc/benchmark.png)
 
-## Complex Example
+## Advanced Usage
 
-For an example of some more complex usage, please see `test/fps_example.m`.  It illustrates how you can combine these functions to visualize some complex geometry very efficiently.  In the example below, there are only two line objects in the axis!
+For an example of some more advanced usage, please see `test/fps_example.m`.  It illustrates how you can combine these functions to visualize some complex geometry very efficiently.  In the example below, there are only two line objects in the axis!
 
 ![](doc/example.jpg)
