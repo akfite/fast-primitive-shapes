@@ -1,5 +1,5 @@
 function varargout = vector(origin, direction)
-%VECTOR Reshapes vector data into a form ready to use with line, plot, plot3, etc
+%VECTOR Reshapes vector data into a form ready to use with line, plot, plot3, etc.
 %
 %   Usage:
 %

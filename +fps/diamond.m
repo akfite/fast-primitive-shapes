@@ -1,5 +1,5 @@
 function [xd, yd] = diamond(x, y, x_radius, y_radius, N)
-%DIAMOND Create data for plotting diamonds
+%DIAMOND Create data for plotting diamonds.
 %
 %   Usage:
 %

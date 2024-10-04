@@ -1,5 +1,5 @@
 function [xd, yd] = grid(varargin)
-%GRID Create x & y-data to define nan-separated lines in a grid pattern.
+%GRID Create data to plot a grid pattern.
 %
 %   Usage:
 %

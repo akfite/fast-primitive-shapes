@@ -1,6 +1,5 @@
 function [xdata, ydata] = honeycomb(xlim, ylim, cell_radius, opts)
-%HONEYCOMB Summary of this function goes here
-%   Detailed explanation goes here
+%HONEYCOMB Create data to plot a honeycomb grid.
 
     arguments
         xlim(1,2) double

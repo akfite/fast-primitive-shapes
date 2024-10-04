@@ -1,5 +1,5 @@
 function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, N)
-%ELLIPSE Create data for plotting ellipses (and therefore also circles)
+%ELLIPSE Create data for plotting ellipses.
 %
 %   Usage:
 %

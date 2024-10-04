@@ -1,5 +1,5 @@
 function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
-%RECTANGLE Create data for plotting rectangles (and therefore also squares)
+%RECTANGLE Create data for plotting rectangles.
 %
 %   Usage:
 %

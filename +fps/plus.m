@@ -1,5 +1,5 @@
 function [xd, yd] = plus(x, y, x_radius, y_radius, N)
-%PLUS Create data for plotting plus-signs
+%PLUS Create data for plotting plus-signs (i.e. "+").
 %
 %   Usage:
 %
