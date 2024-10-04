@@ -1,10 +1,11 @@
-function [xdata, ydata] = honeycomb(xlim, ylim, cell_radius, N)
+function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, N)
 %HONEYCOMB Create data to plot a honeycomb grid.
 %
 %   Usage:
 %
 %       [xdata, ydata] = fps.HONEYCOMB(xlim, ylim, radius)
 %       [xdata, ydata] = fps.HONEYCOMB(xlim, ylim, radius, N)
+%       [xdata, ydata, xcenter, ycenter] = fps.HONEYCOMB(____)
 %
 %   Inputs:
 %
@@ -32,6 +33,9 @@ function [xdata, ydata] = honeycomb(xlim, ylim, cell_radius, N)
 %           - the data is provided as a matrix (i.e. prior to flushing with (:))
 %             so that the user has the flexibility to apply transformations, or
 %             just to plot as multiple objects as some applications require
+%
+%       xcenter, ycenter <numeric vectors>
+%           - the center point of each hexagon that was plotted
 %
 %   Example:
 %
