@@ -33,7 +33,7 @@ ydata = vertcat(circle_y(:), honeycomb_y(:), plus_y(:));
 
 % plot in 3d
 hfig = figure;
-colordef(hfig, 'black');
+colordef(hfig, 'black'); %#ok<COLORDEF>
 plot3(x, y, z, 'clipping','off');
 hold on;
 

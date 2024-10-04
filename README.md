@@ -41,3 +41,9 @@ plot(xdata(:), ydata(:))
 Running the included script `test/fps_benchmark.m`, we can see why keeping the number of handles plotted to a minimum is important for performance.  Note I ran this with 15 trials and took the median, but the included script has `n_trials`=1.
 
 ![](doc/benchmark.png)
+
+## Complex Example
+
+For an example of some more complex usage, please see `test/fps_example.m`.  It illustrates how you can combine these functions to visualize some complex geometry very efficiently.  In the example below, there are only two line objects in the axis!
+
+![](doc/example.jpg)
