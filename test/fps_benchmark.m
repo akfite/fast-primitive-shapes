@@ -1,9 +1,10 @@
+function fps_benchmark
+
 %% setup
 n_trials = 1;
 n_objects = unique(ceil(logspace(0, 4, 100)));
 
 %% run sim
-clear dt_*
 dt_onehandle = nan(numel(n_objects), n_trials);
 dt_multhandle = nan(numel(n_objects), n_trials);
 

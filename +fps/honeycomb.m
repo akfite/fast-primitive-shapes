@@ -35,13 +35,16 @@ function [xdata, ydata] = honeycomb(xlim, ylim, cell_radius, N)
 %
 %   Example:
 %
-%       [xdata, ydata] = fps.honeycomb([0 30], [0 1], 1);
+%       [xdata, ydata] = fps.honeycomb([1 30], [1 10], .5);
 %
 %       figure;
 %       plot(xdata(:), ydata(:));
 %       grid on
 %       daspect([1 1 1])
-%       axis tight
+%       xlim([1 30])
+%       ylim([1 10]);
+%
+%   See also: FPS.HEXAGON
 
     arguments
         xlim(1,2) double
