@@ -1,11 +1,10 @@
-function [xdata, ydata] = square(x, y, radius, N)
+function [xdata, ydata] = square(x, y, radius, opts)
 %SQUARE Create data for plotting squares.
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.SQUARE(x, y)
-%       [xdata, ydata] = FPS.SQUARE(x, y, radius)
-%       [xdata, ydata] = FPS.SQUARE(x, y, radius, N)
+%       [xdata, ydata] = FPS.SQUARE(x, y, opts...)
+%       [xdata, ydata] = FPS.SQUARE(x, y, radius, opts...)
 %
 %   Inputs:
 %
@@ -15,11 +14,17 @@ function [xdata, ydata] = square(x, y, radius, N)
 %       radius <numeric vectors>
 %           - the half-width and half-height of each square
 %
-%       N (=2) <1x1 integer>
-%           - the number of points used to draw each line
-%           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per square will be N*4
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
+%           - the number of points used to draw each line in the square
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
+%
+%       'Rotation' (=0) <1x1 double>
+%           - the rotation of each square about its center point
+%           - degrees, where positive is a clockwise rotation
 %
 %   Outputs:
 %
@@ -51,9 +56,12 @@ function [xdata, ydata] = square(x, y, radius, N)
         x(:,1) {mustBeReal}
         y(:,1) {mustBeReal} = x
         radius(:,1) {mustBeReal} = 1
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 2)} = 2
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
+        opts.Rotation(1,1) double = 0
     end
 
-    [xdata, ydata] = fps.rectangle(x, y, radius, radius, N);
+    [xdata, ydata] = fps.rectangle(x, y, radius, radius, ...
+        'N', opts.N, ...
+        'Rotation', opts.Rotation);
 
 end
