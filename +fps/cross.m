@@ -1,12 +1,11 @@
-function [xdata, ydata] = plus(x, y, x_radius, y_radius, opts)
-%PLUS Create data for plotting plus-signs (i.e. "+").
+function [xdata, ydata] = cross(x, y, x_radius, y_radius, opts)
+%CROSS Create data for plotting crosses (i.e. "+").
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.PLUS(x, y)
-%       [xdata, ydata] = FPS.PLUS(x, y, r)
-%       [xdata, ydata] = FPS.PLUS(x, y, x_radius, y_radius)
-%       [xdata, ydata] = FPS.PLUS(x, y, x_radius, y_radius, N)
+%       [xdata, ydata] = FPS.CROSS(x, y, opts...)
+%       [xdata, ydata] = FPS.CROSS(x, y, r, opts...)
+%       [xdata, ydata] = FPS.CROSS(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -16,16 +15,24 @@ function [xdata, ydata] = plus(x, y, x_radius, y_radius, opts)
 %       x_radius, y_radius <numeric vectors>
 %           - the half-width and half-height for each plus-sign
 %
-%       N (=2) <1x1 integer>
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
 %           - the number of points used to draw each line
-%           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per plus-sign will be N*2
+%           - for instance with N=3, an additional point will be added at the
+%             midpoint of both lines
+%           - this is mainly useful if the line data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
+%
+%       'Rotation' (=0) <1x1 double>
+%           - the rotation of each cross about its center point
+%           - degrees, where positive is a clockwise rotation
 %
 %   Outputs:
 %
 %       xdata, ydata <numeric matrix>
-%           - one column for each plus, with a NaN as the last element
+%           - one column for each cross, with a NaN as the last element
 %           - you can use these arrays directly with plot() and line(), however
 %             take note of the difference in how to make the call:
 %
@@ -38,7 +45,7 @@ function [xdata, ydata] = plus(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.PLUS(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
+%       [xd, yd] = FPS.CROSS(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');
