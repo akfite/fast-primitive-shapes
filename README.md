@@ -7,14 +7,15 @@ This allows you to plot multiple shapes under the same handle (i.e. the
 same call to `line`, `plot`, `plot3`, etc) if you format your data to
 take advantage of this trick.
 
-This library provides functions that exploit this trick so that you don't
-have to deal with reformatting your data to take advantage of this speedup.
+This library provides functions that exploit this trick for a variety
+of shape primitives, which allows you render some complex geometry while
+maintaining good performance (i.e. using as few handles as possible).
 
 ## Examples
 
 ### fps.circle
 
-First, we use `fps` functions to define the data to be plotted:
+First, use `fps` functions to define the data to be plotted:
 
 ```
 radius = 0.5;
@@ -22,7 +23,7 @@ radius = 0.5;
 [xdata, ydata] = fps.circle(x(:), y(:), radius);
 ```
 
-If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop, which is relatively slow but sometimes desirable:
+If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop, which is relatively slow (but sometimes desirable):
 ```
 plot(xdata, ydata)
 ```
@@ -38,12 +39,12 @@ plot(xdata(:), ydata(:))
 
 ## Benchmark
 
-Running the included script `test/fps_benchmark.m`, we can see why keeping the number of handles plotted to a minimum is important for performance.  Note I ran this with 15 trials and took the median, but the included script has `n_trials`=1.
+Running the included script [fps_benchmark.m](./test/fps_benchmark.m), we can see why keeping the number of handles plotted to a minimum is important for performance.  Note I ran this with 15 trials and took the median, but the included script has `n_trials`=1.
 
 ![](doc/benchmark.png)
 
-## Advanced Usage
+## Deathstar Example
 
-For an example of some more advanced usage, please see `test/fps_example.m`.  It illustrates how you can combine these functions to visualize some complex geometry very efficiently.  In the example below, there are only two line objects in the axis!
+For an example of some more advanced usage, please see [fps_deathstar_example.m](./test/fps_deathstar_example.m).  It illustrates how you can combine these functions to visualize some complex geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).
 
-![](doc/example.jpg)
+![](doc/example.png)
