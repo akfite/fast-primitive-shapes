@@ -15,7 +15,7 @@ function varargout = connect(p1, p2, N)
 %             10x2 input, we'll create 10 separate 2-dimensional lines
 %
 %       N (=2) <1x1 integer>
-%           - the number of points to used to draw each line
+%           - the number of points used to draw each line
 %
 %   Outputs:
 %
