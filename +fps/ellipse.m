@@ -1,4 +1,4 @@
-function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, N)
+function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %ELLIPSE Create data for plotting ellipses.
 %
 %   Usage:
@@ -6,7 +6,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, N)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, r)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius)
-%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, N)
+%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -52,26 +52,17 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, N)
         y(1,:) {mustBeReal} = x
         x_radius(1,:) {mustBeReal} = 1
         y_radius(1,:) {mustBeReal} = x_radius
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 4)} = 100
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 3)} = 100
+        opts.Rotation(1,1) double = 0
     end
 
-    % validate inputs are uniformly-sized
-    sz = [length(x), length(y), length(x_radius), length(y_radius)];
-    assert(all(sz == sz(1) | sz == 1), ...
-        'fps:nonuniform_input', ...
-        'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
-        sz(1), sz(2), sz(3), sz(4));
+    % note: we hijack the downstream meaning of "N" to instead be used
+    % here as the smoothness of the circle (and provide no API for adding
+    % points between vertices, because who does that for an ellipse?)
+    [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, opts.N);
 
-    % expand scalar inputs to uniform size
-    % (this will happen via implicit expansion for radius)
-    if isscalar(y), y = repmat(y, size(x)); end
-
-    % parameterize x and y --> t, leaving a NaN as the last row
-    % to separate each ellipse
-    t = [linspace(0, 2*pi, N), NaN]'; % column vector
-
-    % use implicit expansion to efficiently create the output matrix
-    xdata = x + (x_radius .* cos(t));
-    ydata = y + (y_radius .* sin(t));
+    if opts.Rotation ~= 0
+        [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata, x, y);
+    end
 
 end

@@ -53,6 +53,6 @@ function [xdata, ydata] = circle(x, y, radius, N)
         N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 4)} = 100
     end
 
-    [xdata, ydata] = fps.ellipse(x, y, radius, radius, N);
+    [xdata, ydata] = fps.regular_polygon(x, y, radius, radius, N);
 
 end

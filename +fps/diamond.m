@@ -1,4 +1,4 @@
-function [xd, yd] = diamond(x, y, x_radius, y_radius, N)
+function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %DIAMOND Create data for plotting diamonds.
 %
 %   Usage:
@@ -53,50 +53,17 @@ function [xd, yd] = diamond(x, y, x_radius, y_radius, N)
         y(:,1) {mustBeReal} = x
         x_radius(:,1) {mustBeReal} = 1
         y_radius(:,1) {mustBeReal} = x_radius
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 2)} = 2
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
+        opts.Rotation(1,1) double = 0
     end
 
-    % validate inputs are uniformly-sized
-    sz = [length(x), length(y), length(x_radius), length(y_radius)];
-    assert(all(sz == sz(1) | sz == 1), ...
-        'fps:nonuniform_input', ...
-        'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
-        sz(1), sz(2), sz(3), sz(4));
+    [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, 4, ...
+        'N', opts.N, ...
+        'Rotation', -90);
 
-    % solve for the extents
-    x0 = x - x_radius;
-    x1 = x + x_radius;
-    y0 = y - y_radius;
-    y1 = y + y_radius;
-
-    % expand scalars
-    nrep = max(sz);
-    if nrep > 1
-        if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
-        if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
-        if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
-        if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
-        if isscalar(x), x = repmat(x, [nrep 1]); end
-        if isscalar(y), y = repmat(y, [nrep 1]); end
+    if opts.Rotation ~= 0
+        [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata, x, y);
     end
-    
-    % create coordinate pairs for lines starting at bottom
-    % and moving counter-clockwise around the diamond
-    xpairs = [
-        x x0
-        x0 x
-        x x1
-        x1 x
-        ];
-
-    ypairs = [
-        y0 y
-        y y1
-        y1 y
-        y y0
-        ];
-
-    [xd, yd] = fps.line(xpairs, ypairs, N);
 
 end
 

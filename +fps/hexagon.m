@@ -60,44 +60,8 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
         opts.Rotation(1,1) double = 0 % degrees, clockwise is positive
     end
 
-    % validate inputs are uniformly-sized
-    sz = [length(x), length(y), length(x_radius), length(y_radius)];
-    assert(all(sz == max(sz) | sz == 1), ...
-        'fps:nonuniform_input', ...
-        'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
-        sz(1), sz(2), sz(3), sz(4));
-
-    if isscalar(x_radius), x_radius = repmat(x_radius, [1 max(sz)]); end
-    if isscalar(y_radius), y_radius = repmat(y_radius, [1 max(sz)]); end
-
-    % define each hexagon centered on the origin
-    vertex_angles = pi/180 * ([360:-60:0 NaN])';
-    xv = x_radius .* cos(vertex_angles);
-    yv = y_radius .* sin(vertex_angles);
-
-    % optionally apply rotation
-    if opts.Rotation ~= 0
-        dcm = [
-            cosd(opts.Rotation) -sind(opts.Rotation)
-            sind(opts.Rotation) cosd(opts.Rotation)
-        ];
-        new_xy = dcm * [xv(:)'; yv(:)'];
-        xv = reshape(new_xy(1,:), size(xv));
-        yv = reshape(new_xy(2,:), size(yv));
-    end
-
-    % translate to desired positions
-    xdata = xv + x;
-    ydata = yv + y;
-
-    if opts.N > 2
-        x = [reshape(xdata(1:6,:),[],1), reshape(xdata(2:7,:),[],1)];
-        y = [reshape(ydata(1:6,:),[],1), reshape(ydata(2:7,:),[],1)];
-        [xdata,ydata] = fps.line(x, y, opts.N);
-
-        % return as one column per hexagon
-        xdata = reshape(xdata, (opts.N+1)*6, []);
-        ydata = reshape(ydata, (opts.N+1)*6, []);
-    end
+    [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, 6, ...
+        'N', opts.N, ...
+        'Rotation', opts.Rotation);
 
 end
