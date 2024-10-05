@@ -31,7 +31,7 @@ radius = 0.5;
 ```
 Let's take a look at what we get: ![](doc/workspace.jpg)
 
-Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will therefore request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default it uses N=100, with an extra vertex to close the shape and a `NaN` at the end as the line break.
+Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will therefore request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default `fps.circle` uses N=100, with an extra vertex to close the shape and a `NaN` at the end as the line break.
 
 If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop; i.e. MATLAB iterates over each column and plots them as a separate object.  This is effectively the same as calling `plot` in a loop, which is relatively slow both because of the repeated calls to `plot` and because it results in a separate line object added to the axis for each circle.  It looks like this:
 ```
