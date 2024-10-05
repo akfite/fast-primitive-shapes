@@ -15,7 +15,7 @@ maintaining good performance (i.e. using as few handles as possible).
 
 ### Deathstar
 
-Let's get right into an example of some more advanced usage!  The visualization below was generated with [fps_deathstar_example.m](./test/fps_deathstar_example.m).  This demo illustrates how you can combine functions in this library to visualize some complex geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).  All of the functions are highly-vectorized and designed to plot many separate shapes at once.
+Let's get right into an example of some more advanced usage!  The visualization below was generated with [fps_deathstar_example.m](./test/fps_deathstar_example.m).  This demo illustrates how you can combine functions in this library to visualize some complex geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).  All of the functions are vectorized and designed to work with many separate shapes at once.
 
 ![](doc/example.png)
 
