@@ -72,7 +72,7 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
         x_radius(1,:) double
         y_radius(1,:) double
         n_sides(1,1) uint32 {mustBeGreaterThanOrEqual(n_sides, 3)}
-        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)}
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
         opts.Rotation(1,1) double = 0
     end
 
@@ -103,23 +103,7 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
     % increase the number of data points by parameterizing along the line
     % between each vertex
     if opts.N > 2
-        t = linspace(0, 1, opts.N)';
-
-        xstart = shiftdim(xdata(1:end-2,:), -2);
-        xend = shiftdim(xdata(2:end-1,:), -2);
-        xnew = xstart + (t .* (xend - xstart));
-        xdata = reshape(xnew, (n_sides)*opts.N, []);
-        xdata(end+1,:) = nan;
-
-        ystart = shiftdim(ydata(1:end-2,:), -2);
-        yend = shiftdim(ydata(2:end-1,:), -2);
-        ynew = ystart + (t .* (yend - ystart));
-        ydata = reshape(ynew, (n_sides)*opts.N, []);
-        ydata(end+1,:) = nan;
-
-        % remove repeated vertices
-        xdata(opts.N:opts.N:(opts.N*(n_sides-1)),:) = [];
-        ydata(opts.N:opts.N:(opts.N*(n_sides-1)),:) = [];
+        [xdata, ydata] = fps.internal.upsample(opts.N, xdata, ydata);
     end
 
 end
