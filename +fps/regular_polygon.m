@@ -104,10 +104,10 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
     % between each vertex
     if opts.N > 2
         [xdata, ydata] = fps.internal.upsample(opts.N, xdata, ydata);
-    end
 
-    % remove repeated vertices
-    xdata(opts.N : opts.N : (opts.N*(n_sides-1)),:) = [];
-    ydata(opts.N : opts.N : (opts.N*(n_sides-1)),:) = [];
+        % remove repeated vertices
+        xdata(opts.N : opts.N : (opts.N*(n_sides-1)),:) = [];
+        ydata(opts.N : opts.N : (opts.N*(n_sides-1)),:) = [];
+    end
 
 end

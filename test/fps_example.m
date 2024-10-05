@@ -18,7 +18,7 @@ honeycomb_x(dist > cone_sz/2) = nan;
 honeycomb_y(dist > cone_sz/2) = nan;
 
 % plus-sign at the center of each hexagon
-[plus_x, plus_y] = fps.cross(xc, yc, cone_sz/50, cone_sz/50, 50);
+[plus_x, plus_y] = fps.cross(xc, yc, cone_sz/50, cone_sz/50, N=50);
 
 dist = sqrt((plus_x - clon).^2 + (plus_y - clat).^2);
 plus_x(dist > cone_sz/2) = nan;
