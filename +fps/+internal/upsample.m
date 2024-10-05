@@ -15,9 +15,6 @@ function varargout = upsample(N, varargin)
         xdata = reshape(xnew, (n_sides)*N, []);
         xdata(end+1,:) = nan; %#ok<*AGROW>
 
-        % remove repeated vertices
-        xdata(N:N:(N*(n_sides-1)),:) = [];
-
         % assign to output
         varargout{i} = xdata;
     end
