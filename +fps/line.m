@@ -3,7 +3,7 @@ function varargout = line(varargin)
 %
 %   Usage:
 %
-%       [xdata, ydata, ...] = FPS.LINE(x, y, ...)
+%       [xdata, ydata, ...] = FPS.LINE(x, y, ..., N)
 %
 %   Inputs:
 %
@@ -61,21 +61,13 @@ function varargout = line(varargin)
         arg = varargin{i};
         validateattributes(arg, {'numeric'}, {'2d','real','ncols', 2});
 
-        if N == 2
-            % simplest/fastest way to form lines (2 connected points)
-            varargout{i} = vertcat(...
-                arg', ...
-                nan(1, size(arg, 1)));
-        else
-            % more than two points per line requires calling linspace for each pair
-            data = nan(N+1, size(arg,1)); % pre-allocate
+        varargout{i} = vertcat(...
+            arg', ...
+            nan(1, size(arg, 1)));
+    end
 
-            for j = 1:size(arg,1)
-                data(1:end-1, j) = linspace(arg(j,1), arg(j,2), N);
-            end
-
-            varargout{i} = data;
-        end
+    if N > 2
+        [varargout{1:nargout}] = fps.internal.upsample(N, varargout{:});
     end
 
 end
