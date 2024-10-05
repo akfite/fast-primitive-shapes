@@ -3,10 +3,10 @@ function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.DIAMOND(x, y)
-%       [xdata, ydata] = FPS.DIAMOND(x, y, r)
-%       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius)
-%       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius, N)
+%       [xdata, ydata] = FPS.DIAMOND(x, y, opts...)
+%       [xdata, ydata] = FPS.DIAMOND(x, y, r, opts...)
+%       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius, opts...)
+%       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -44,7 +44,7 @@ function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.DIAMOND(1:100, 1:100, 3*rand(1,100), 3*rand(1,100));
+%       [xd, yd] = fps.diamond(1:10, 1:10, 3*rand(1,10), 3*rand(1,10));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

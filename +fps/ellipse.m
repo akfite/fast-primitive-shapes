@@ -6,7 +6,6 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, opts...)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, r, opts...)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, opts...)
-%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -44,7 +43,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.ELLIPSE(1:100, 1:100, 10*rand(1,100));
+%       [xd, yd] = fps.ellipse(1:10, 1:10, rand(1,10));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

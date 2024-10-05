@@ -5,7 +5,6 @@ function [xdata, ydata] = circle(x, y, radius, opts)
 %
 %       [xdata, ydata] = FPS.CIRCLE(x, y, opts...)
 %       [xdata, ydata] = FPS.CIRCLE(x, y, radius, opts...)
-%       [xdata, ydata] = FPS.CIRCLE(x, y, radius, opts...)
 %
 %   Inputs:
 %
@@ -14,7 +13,6 @@ function [xdata, ydata] = circle(x, y, radius, opts)
 %
 %       radius <numeric vectors>
 %           - the radius of each circle
-%
 %
 %   Inputs (optional param-value pairs):
 %
@@ -38,7 +36,7 @@ function [xdata, ydata] = circle(x, y, radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.CIRCLE(1:100, 1:100, 10*rand(1,100));
+%       [xd, yd] = fps.circle(1:100, 1:100, 10*rand(1,100));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

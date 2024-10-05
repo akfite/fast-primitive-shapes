@@ -37,7 +37,8 @@ honeycomb_cell_radius = 3; % degrees
 %% Define the sphere
 
 % create a grid all over the unit sphere to illustrate context
-[grid_x, grid_y] = fps.grid(-180:5:180, -90:5:90, 1000);
+[grid_x, grid_y] = fps.grid(-180:5:180, -90:5:90, ...
+    'N', 1000);
 
 % clear out the area where we'll draw the death ray
 dist = sqrt((grid_x - clon).^2 + (grid_y - clat).^2);

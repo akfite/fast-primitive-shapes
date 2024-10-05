@@ -1,11 +1,10 @@
-function [xd, yd] = grid(varargin)
+function [xd, yd] = grid(x, y, opts)
 %GRID Create data to plot a grid pattern.
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.GRID(x)
-%       [xdata, ydata] = FPS.GRID(x, y)
-%       [xdata, ydata] = FPS.GRID(___, N)
+%       [xdata, ydata] = FPS.GRID(x, opts...)
+%       [xdata, ydata] = FPS.GRID(x, y, opts...)
 %
 %   Inputs:
 %
@@ -13,10 +12,15 @@ function [xd, yd] = grid(varargin)
 %           - the coordinates of the lines to draw, where one line will be drawn
 %             for each x and each y to form an overlapping grid
 %
-%       N (=2) <1x1 integer>
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
 %           - the number of points used to draw each line
-%           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as spherical to cartesian coordinates
+%           - for instance with N=3, an additional point will be added at the
+%             midpoint of both lines
+%           - this is mainly useful if the line data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
 %
 %   Outputs:
 %
@@ -35,11 +39,11 @@ function [xd, yd] = grid(varargin)
 %   Examples:
 %
 %       % example 1
-%       [xd,yd] = FPS.GRID(1:25);
+%       [xd,yd] = fps.grid(1:25);
 %       figure; plot(xd(:), yd(:)); axis tight
 %
 %       % example 2
-%       [xd,yd] = FPS.GRID(3.5:7.5, 8.5:15.5);
+%       [xd,yd] = fps.grid(3.5:7.5, 8.5:15.5, 'N', 3);
 %
 %       figure; 
 %       imagesc(randn(25)); caxis([-10 10]); colormap gray; hold on
@@ -50,26 +54,11 @@ function [xd, yd] = grid(varargin)
 %   Author:     Austin Fite
 %   Contact:    akfite@gmail.com
 
-    narginchk(1, 3);
-
-    if isscalar(varargin{end})
-        N = varargin{end};
-        varargin(end) = [];
-    else
-        N = 2;
+    arguments
+        x(:,1) double
+        y(:,1) double = x
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
     end
-
-    if isscalar(varargin)
-        x = varargin{1};
-        y = x;
-    else
-        x = varargin{1};
-        y = varargin{2};
-    end
-
-    % inputs must be column vectors
-    x = x(:);
-    y = y(:);
 
     % pre-allocate
     line_x = nan(numel(x) + numel(y), 2);
@@ -84,6 +73,6 @@ function [xd, yd] = grid(varargin)
     line_y(numel(x)+1:end, :) = repmat(y, [1 2]);
 
     % convert coordinate pairs to lines ready to plot
-    [xd, yd] = fps.line(line_x, line_y, N);
+    [xd, yd] = fps.line(line_x, line_y, opts.N);
 
 end

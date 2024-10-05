@@ -6,7 +6,6 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
 %       [xdata, ydata] = FPS.HEXAGON(x, y, opts...)
 %       [xdata, ydata] = FPS.HEXAGON(x, y, r, opts...)
 %       [xdata, ydata] = FPS.HEXAGON(x, y, x_radius, y_radius, opts...)
-%       [xdata, ydata] = FPS.HEXAGON(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -41,7 +40,7 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.HEXAGON(1:100, 1:100, 10*rand(1,100));
+%       [xd, yd] = fps.hexagon(1:10, 1:10, rand(1,10));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

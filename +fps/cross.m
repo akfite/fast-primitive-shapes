@@ -45,7 +45,7 @@ function [xdata, ydata] = cross(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.CROSS(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
+%       [xd, yd] = fps.cross(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

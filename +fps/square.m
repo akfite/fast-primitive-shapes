@@ -42,7 +42,7 @@ function [xdata, ydata] = square(x, y, radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.SQUARE(1:100, 1:100, 10*rand(1,100));
+%       [xd, yd] = fps.square(1:10, 1:10, rand(1,10));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');

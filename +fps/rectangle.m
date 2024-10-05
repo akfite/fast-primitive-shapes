@@ -43,7 +43,7 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
 %
 %   Examples:
 %
-%       [xd, yd] = FPS.RECTANGLE(1:100, 1:100, 10*rand(1,100), 10*rand(1,100));
+%       [xd, yd] = fps.rectangle(1:10, 1:10, rand(1,10), rand(1,10));
 %
 %       figure; plot(xd, yd); title('multiple line objects (slow)');
 %       figure; plot(xd(:), yd(:)); title('single line object (fast)');
