@@ -1,4 +1,4 @@
-function [xd, yd] = plus(x, y, x_radius, y_radius, N)
+function [xdata, ydata] = plus(x, y, x_radius, y_radius, opts)
 %PLUS Create data for plotting plus-signs (i.e. "+").
 %
 %   Usage:
@@ -49,11 +49,12 @@ function [xd, yd] = plus(x, y, x_radius, y_radius, N)
 %   Contact:    akfite@gmail.com
 
     arguments
-        x(:,1) {mustBeReal}
-        y(:,1) {mustBeReal} = x
-        x_radius(:,1) {mustBeReal} = 1
-        y_radius(:,1) {mustBeReal} = x_radius
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 2)} = 2
+        x(1,:) {mustBeReal}
+        y(1,:) {mustBeReal} = x
+        x_radius(1,:) {mustBeReal} = 1
+        y_radius(1,:) {mustBeReal} = x_radius
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
+        opts.Rotation(1,1) double = 0
     end
 
     % validate inputs are uniformly-sized
@@ -63,35 +64,51 @@ function [xd, yd] = plus(x, y, x_radius, y_radius, N)
         'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
         sz(1), sz(2), sz(3), sz(4));
 
-    % solve for the extents
-    x0 = x - x_radius;
-    x1 = x + x_radius;
-    y0 = y - y_radius;
-    y1 = y + y_radius;
-
     % expand scalars
     nrep = max(sz);
     if nrep > 1
-        if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
-        if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
-        if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
-        if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
-        if isscalar(x), x = repmat(x, [nrep 1]); end
-        if isscalar(y), y = repmat(y, [nrep 1]); end
+        if isscalar(x), x = repmat(x, [1 nrep]); end
+        if isscalar(y), y = repmat(y, [1 nrep]); end
+        if isscalar(x_radius), x_radius = repmat(x_radius, [1 nrep]); end
+        if isscalar(y_radius), y_radius = repmat(y_radius, [1 nrep]); end
     end
     
-    % create coordinate pairs for the vertical line, then horizontal line
-    xpairs = [
-        x  x
-        x0 x1
+    % create the points for each line
+    linebreak = nan(1, nrep);
+    origin = zeros(1, nrep);
+
+    xdata = [
+        ... horizontal line
+        -x_radius
+        x_radius
+        linebreak
+        ... vertical line
+        origin
+        origin
+        linebreak
         ];
 
-    ypairs = [
-        y0 y1
-        y  y
+    ydata = [
+        ... horizontal line
+        origin
+        origin
+        linebreak
+        ... vertical line
+        -y_radius
+        y_radius
+        linebreak
         ];
 
-    [xd, yd] = fps.line(xpairs, ypairs, N);
+    if opts.Rotation ~= 0
+        [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata);
+    end
+
+    xdata = xdata + x;
+    ydata = ydata + y;
+
+    if opts.N > 2
+        [xdata, ydata] = fps.internal.upsample(opts.N, xdata, ydata);
+    end
 
 end
 
