@@ -1,11 +1,11 @@
-function [xdata, ydata] = circle(x, y, radius, N)
+function [xdata, ydata] = circle(x, y, radius, opts)
 %CIRCLE Create data for plotting circles.
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.CIRCLE(x, y)
-%       [xdata, ydata] = FPS.CIRCLE(x, y, radius)
-%       [xdata, ydata] = FPS.CIRCLE(x, y, radius, N)
+%       [xdata, ydata] = FPS.CIRCLE(x, y, opts...)
+%       [xdata, ydata] = FPS.CIRCLE(x, y, radius, opts...)
+%       [xdata, ydata] = FPS.CIRCLE(x, y, radius, opts...)
 %
 %   Inputs:
 %
@@ -15,10 +15,12 @@ function [xdata, ydata] = circle(x, y, radius, N)
 %       radius <numeric vectors>
 %           - the radius of each circle
 %
+%
+%   Inputs (optional param-value pairs):
+%
 %       N (=100) <1x1 integer>
 %           - the number of points to use to plot each circle
 %           - affects the smoothness
-%           - must be greater than or equal to 4 (to prevent degenerate shapes)
 %
 %   Outputs:
 %
@@ -50,9 +52,9 @@ function [xdata, ydata] = circle(x, y, radius, N)
         x(1,:) {mustBeReal}
         y(1,:) {mustBeReal} = x
         radius(1,:) {mustBeReal} = 1
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 4)} = 100
+        opts.N(1,1) uint32 = 100
     end
 
-    [xdata, ydata] = fps.regular_polygon(x, y, radius, radius, N);
+    [xdata, ydata] = fps.regular_polygon(x, y, radius, radius, opts.N);
 
 end
