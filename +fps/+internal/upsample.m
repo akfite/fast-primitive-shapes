@@ -10,15 +10,21 @@ function varargout = upsample(N, varargin)
     t = linspace(0, 1, N)';
 
     for i = 1:numel(varargin)
-        xdata = varargin{i};
-        xstart = shiftdim(xdata(1:end-2,:), -2);
-        xend = shiftdim(xdata(2:end-1,:), -2);
-        xnew = xstart + (t .* (xend - xstart));
-        xdata = reshape(xnew, size(xstart,3)*N, []);
-        xdata(end+1,:) = nan; %#ok<*AGROW>
+        data = varargin{i};
+
+        % pull out the start & end point of each line to upsample
+        head = shiftdim(data(1:end-2,:), -2);
+        tail = shiftdim(data(2:end-1,:), -2);
+
+        % linear upsampling
+        xnew = head + (t .* (tail - head));
+        data = reshape(xnew, size(head,3)*N, []);
+
+        % add the last row of NaNs back to separate each shape
+        data(end+1,:) = nan; %#ok<*AGROW>
 
         % assign to output
-        varargout{i} = xdata;
+        varargout{i} = data;
     end
 
 end
