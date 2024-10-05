@@ -20,7 +20,7 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
 %       'N' (=2) <1x1 uint32>
 %           - the number of points to use for each line of the hexagon
 %
-%       'Rotation' (=0) <1x1 double>
+%       'Rotation' (=0) <1xN double>
 %           - the rotation of each hexagon about its center point
 %           - degrees, positive is a clockwise rotation
 %
@@ -56,11 +56,18 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
         x_radius(1,:) {mustBeReal} = 1
         y_radius(1,:) {mustBeReal} = x_radius
         opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
-        opts.Rotation(1,1) double = 0 % degrees, clockwise is positive
+        opts.Rotation(1,:) double = 0 % degrees, clockwise is positive
     end
 
-    [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, 6, ...
-        'N', opts.N, ...
-        'Rotation', opts.Rotation);
+    if isscalar(opts.Rotation)
+        % regular_polygon requires all shapes to have the same orientation
+        [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, 6, ...
+            'N', opts.N, ...
+            'Rotation', opts.Rotation);
+    else
+        [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, 6, ...
+            'N', opts.N);
+        [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata, x, y);
+    end
 
 end

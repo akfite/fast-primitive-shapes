@@ -23,7 +23,7 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
 %             user-defined transformation, such as spherical to cartesian
 %             (see test/fps_example.m for an example)
 %
-%       'Rotation' (=0) <1x1 double>
+%       'Rotation' (=0) <1xN double>
 %           - the rotation of each rectangle about its center point
 %           - degrees, where positive is a clockwise rotation
 %
@@ -59,7 +59,7 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
         x_radius(1,:) {mustBeReal} = 1
         y_radius(1,:) {mustBeReal} = x_radius
         opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
-        opts.Rotation(1,1) double = 0
+        opts.Rotation(1,:) double = 0
     end
 
     % validate inputs are uniformly-sized
@@ -97,7 +97,7 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
         nan(1, nrep)
         ];
 
-    if opts.Rotation ~= 0
+    if any(opts.Rotation ~= 0)
         [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata);
     end
 

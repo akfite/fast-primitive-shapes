@@ -22,7 +22,7 @@ function [xdata, ydata] = square(x, y, radius, opts)
 %             user-defined transformation, such as spherical to cartesian
 %             (see test/fps_example.m for an example)
 %
-%       'Rotation' (=0) <1x1 double>
+%       'Rotation' (=0) <1xN double>
 %           - the rotation of each square about its center point
 %           - degrees, where positive is a clockwise rotation
 %
@@ -57,7 +57,7 @@ function [xdata, ydata] = square(x, y, radius, opts)
         y(:,1) {mustBeReal} = x
         radius(:,1) {mustBeReal} = 1
         opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
-        opts.Rotation(1,1) double = 0
+        opts.Rotation(1,:) double = 0
     end
 
     [xdata, ydata] = fps.rectangle(x, y, radius, radius, ...

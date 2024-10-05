@@ -23,7 +23,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %             user-defined transformation, such as spherical to cartesian
 %             (see test/fps_example.m for an example)
 %
-%       'Rotation' (=0) <1x1 double>
+%       'Rotation' (=0) <1xN double>
 %           - the rotation of each ellipse about its center point
 %           - degrees, where positive is a clockwise rotation
 %
@@ -59,7 +59,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
         x_radius(1,:) {mustBeReal} = 1
         y_radius(1,:) {mustBeReal} = x_radius
         opts.N(1,1) uint32 = 100
-        opts.Rotation(1,1) double = 0
+        opts.Rotation(1,:) double = 0
     end
 
     % note: we hijack the downstream meaning of "N" to instead be used
@@ -67,7 +67,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
     % points between vertices, because who does that for an ellipse?)
     [xdata, ydata] = fps.regular_polygon(x, y, x_radius, y_radius, opts.N);
 
-    if opts.Rotation ~= 0
+    if any(opts.Rotation ~= 0)
         [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata, x, y);
     end
 
