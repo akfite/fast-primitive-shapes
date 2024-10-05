@@ -16,11 +16,17 @@ function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %       x_radius, y_radius <numeric vectors>
 %           - the half-width and half-height for each diamond
 %
-%       N (=2) <1x1 integer>
-%           - the number of points used to draw each line
-%           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per diamond will be N*4
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
+%           - the number of points used to draw each line in the diamond
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
+%
+%       'Rotation' (=0) <1x1 double>
+%           - the rotation of each ellipse about its center point
+%           - degrees, where positive is a clockwise rotation
 %
 %   Outputs:
 %

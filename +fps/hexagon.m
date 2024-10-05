@@ -19,7 +19,7 @@ function [xdata, ydata] = hexagon(x, y, x_radius, y_radius, opts)
 %   Inputs (param-value pairs)
 %
 %       'N' (=2) <1x1 uint32>
-%           - the number of points to use for each component line of the hexagon
+%           - the number of points to use for each line of the hexagon
 %
 %       'Rotation' (=0) <1x1 double>
 %           - the rotation of each hexagon about its center point

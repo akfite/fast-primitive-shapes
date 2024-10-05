@@ -5,13 +5,13 @@ clat = 0; % cone center latitude, deg
 clon = 0; % cone center longitude, deg
 
 % define all coordinates as angles in 2d, then project onto sphere
-[circle_x, circle_y] = fps.circle(clon, clat, cone_sz/2, 1000);
+[circle_x, circle_y] = fps.circle(clon, clat, cone_sz/2, N=1000);
 
 % create a honeycomb grid inside the circle
 [honeycomb_x, honeycomb_y, xc, yc] = fps.honeycomb(...
     clon+[-1 1].*cone_sz/2, ...
     clat+[-1 1].*cone_sz/2, ...
-    cone_sz/20, 50);
+    cone_sz/20, N=50);
 
 dist = sqrt((honeycomb_x - clon).^2 + (honeycomb_y - clat).^2);
 honeycomb_x(dist > cone_sz/2) = nan;

@@ -3,9 +3,9 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.ELLIPSE(x, y)
-%       [xdata, ydata] = FPS.ELLIPSE(x, y, r)
-%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius)
+%       [xdata, ydata] = FPS.ELLIPSE(x, y, opts...)
+%       [xdata, ydata] = FPS.ELLIPSE(x, y, r, opts...)
+%       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, opts...)
 %       [xdata, ydata] = FPS.ELLIPSE(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
@@ -16,10 +16,17 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
 %       x_radius, y_radius <numeric vectors>
 %           - the radius of the ellipse in the x and y directions
 %
-%       N (=100) <1x1 integer>
-%           - the number of points to use to plot each ellipse
-%           - affects the smoothness
-%           - must be greater than or equal to 4 (to prevent degenerate shapes)
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=100) <1x1 uint32>
+%           - the number of points used to draw each ellipse
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
+%
+%       'Rotation' (=0) <1x1 double>
+%           - the rotation of each ellipse about its center point
+%           - degrees, where positive is a clockwise rotation
 %
 %   Outputs:
 %
@@ -52,7 +59,7 @@ function [xdata, ydata] = ellipse(x, y, x_radius, y_radius, opts)
         y(1,:) {mustBeReal} = x
         x_radius(1,:) {mustBeReal} = 1
         y_radius(1,:) {mustBeReal} = x_radius
-        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 3)} = 100
+        opts.N(1,1) uint32 = 100
         opts.Rotation(1,1) double = 0
     end
 

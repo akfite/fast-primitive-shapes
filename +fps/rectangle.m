@@ -1,12 +1,11 @@
-function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
+function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
 %RECTANGLE Create data for plotting rectangles.
 %
 %   Usage:
 %
-%       [xdata, ydata] = FPS.RECTANGLE(x, y)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, r)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius, N)
+%       [xdata, ydata] = FPS.RECTANGLE(x, y, opts...)
+%       [xdata, ydata] = FPS.RECTANGLE(x, y, r, opts...)
+%       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:
 %
@@ -16,11 +15,17 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
 %       x_radius, y_radius <numeric vectors>
 %           - the half-width and half-height for each rectangle
 %
-%       N (=2) <1x1 integer>
-%           - the number of points used to draw each line
-%           - more than 2 points can be useful if the output data will undergo
-%             a transformation, such as spherical to cartesian coordinates
-%           - the total number of points per rectangle will be N*4
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
+%           - the number of points used to draw each line in the rectangle
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
+%
+%       'Rotation' (=0) <1x1 double>
+%           - the rotation of each rectangle about its center point
+%           - degrees, where positive is a clockwise rotation
 %
 %   Outputs:
 %
@@ -49,11 +54,12 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
 %   Contact:    akfite@gmail.com
 
     arguments
-        x(:,1) {mustBeReal}
-        y(:,1) {mustBeReal} = x
-        x_radius(:,1) {mustBeReal} = 1
-        y_radius(:,1) {mustBeReal} = x_radius
-        N(1,1) uint32 {mustBeGreaterThanOrEqual(N, 2)} = 2
+        x(1,:) {mustBeReal}
+        y(1,:) {mustBeReal} = x
+        x_radius(1,:) {mustBeReal} = 1
+        y_radius(1,:) {mustBeReal} = x_radius
+        opts.N(1,1) uint32 {mustBeGreaterThanOrEqual(opts.N, 2)} = 2
+        opts.Rotation(1,1) double = 0
     end
 
     % validate inputs are uniformly-sized
@@ -63,37 +69,43 @@ function [xd, yd] = rectangle(x, y, x_radius, y_radius, N)
         'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
         sz(1), sz(2), sz(3), sz(4));
 
-    % solve for the extents
-    x0 = x - x_radius;
-    x1 = x + x_radius;
-    y0 = y - y_radius;
-    y1 = y + y_radius;
-
     % expand scalars
     nrep = max(sz);
     if nrep > 1
-        if isscalar(x0), x0 = repmat(x0, [nrep 1]); end
-        if isscalar(x1), x1 = repmat(x1, [nrep 1]); end
-        if isscalar(y0), y0 = repmat(y0, [nrep 1]); end
-        if isscalar(y1), y1 = repmat(y1, [nrep 1]); end
+        if isscalar(x), x = repmat(x, [1 nrep]); end
+        if isscalar(y), y = repmat(y, [1 nrep]); end
+        if isscalar(x_radius), x_radius = repmat(x_radius, [1 nrep]); end
+        if isscalar(y_radius), y_radius = repmat(y_radius, [1 nrep]); end
     end
-    
-    % create coordinate pairs for lines starting at bottom-left corner
-    % and moving counter-clockwise around the rectangle
-    xpairs = [
-        x0 x0
-        x0 x1
-        x1 x1
-        x1 x0
+
+    % defined at the origin, clockwise starting at bottom left corner
+    xdata = [
+        -x_radius
+        -x_radius
+        x_radius
+        x_radius
+        -x_radius
+        nan(1, nrep)
         ];
 
-    ypairs = [
-        y0 y1
-        y1 y1
-        y1 y0
-        y0 y0
+    ydata = [
+        -y_radius
+        y_radius
+        y_radius
+        -y_radius
+        -y_radius
+        nan(1, nrep)
         ];
 
-    [xd, yd] = fps.line(xpairs, ypairs, N);
+    if opts.Rotation ~= 0
+        [xdata, ydata] = fps.internal.rotate_2d(opts.Rotation, xdata, ydata);
+    end
+
+    xdata = xdata + x;
+    ydata = ydata + y;
+
+    if opts.N > 2
+        [xdata, ydata] = fps.internal.upsample(opts.N, xdata, ydata);
+    end
 
 end

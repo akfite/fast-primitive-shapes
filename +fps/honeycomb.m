@@ -1,10 +1,9 @@
-function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, N)
+function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, opts)
 %HONEYCOMB Create data to plot a honeycomb grid.
 %
 %   Usage:
 %
-%       [xdata, ydata] = fps.HONEYCOMB(xlim, ylim, radius)
-%       [xdata, ydata] = fps.HONEYCOMB(xlim, ylim, radius, N)
+%       [xdata, ydata] = fps.HONEYCOMB(xlim, ylim, radius, opts...)
 %       [xdata, ydata, xcenter, ycenter] = fps.HONEYCOMB(____)
 %
 %   Inputs:
@@ -17,8 +16,14 @@ function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, N)
 %       radius <1x1 double>
 %           - the radius of the circle that circumscribes each honeycomb cell
 %
-%       N (=2) <1x1 double>
-%           - the number of points used to draw each hexagon edge
+%
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
+%           - the number of points used to draw each line in each hexagon
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_example.m for an example)
 %
 %   Outputs:
 %
@@ -54,7 +59,7 @@ function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, N)
         xlim(1,2) double
         ylim(1,2) double
         cell_radius(1,1) double
-        N(1,1) uint32 = 2
+        opts.N(1,1) uint32 = 2
     end
 
     % hexagon center-to-perpendicular-edge distance
@@ -72,7 +77,7 @@ function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, N)
     y = vertcat(yy_1(:), yy_2(:));
 
     [xdata, ydata] = fps.hexagon(x, y, cell_radius, ...
-        'N', N, ...
-        'Rotation', 90);
+        'N', opts.N, ...
+        'Rotation', -90);
 end
 
