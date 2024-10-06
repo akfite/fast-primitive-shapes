@@ -15,14 +15,14 @@ maintaining good performance (i.e. using as few handles as possible).
 
 ### Deathstar
 
-Let's get right into an example of some more advanced usage!  The visualization below was generated with [fps_deathstar_example.m](./test/fps_deathstar_example.m).  This demo illustrates how you can combine functions in this library to visualize some complex geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).  All of the functions are vectorized and designed to work with many separate shapes at once.
+Let's start with a rather complex scene.  The visualization below was generated with [fps_deathstar_example.m](./test/fps_deathstar_example.m).  The demo illustrates how you can combine functions in this library to visualize some complicated geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).  All of the functions are vectorized and designed to work with many separate shapes at once.
 
 ![](doc/deathstar.png)
 
 
-### The basics with fps.circle
+### Overview of basics with fps.circle
 
-First, use `fps` functions to define the data to be plotted:
+First, use one of the `+fps` functions to define the data to be plotted:
 
 ```
 radius = 0.5;
