@@ -1,28 +1,28 @@
-# fast primitive shapes (fps)
+# fast primitive shapes (+fps)
 
-MATLAB plots get slow when bogged down with lots of objects drawn
-into an axis.  One way to speed things up is to interleave `NaN`s with
-your plotted data, which MATLAB interprets as a line break in the plot.
-This allows you to plot multiple shapes under the same handle (i.e. the
-same call to `line`, `plot`, `plot3`, etc) if you format your data to
-take advantage of this trick.
+Think of this library as a way to vectorize your MATLAB plots.  It allows you to create the data for multiple shapes simultaneously in a form that exploits the "NaN trick"--a quirk of MATLAB's rendering pipeline that treats NaNs as line breaks in the plot.  This effectively allows you to draw many shapes at once using a single line object, which makes the GPU rendering of your plots significantly faster (see [benchmark](#benchmark) section).
 
-This library provides functions that exploit this trick for a variety
-of shape primitives, which allows you render some complex geometry while
-maintaining good performance (i.e. using as few handles as possible).
+These functions can be used for general plotting, but they really shine in cases where plots need to show a ton of data and/or where the plot is interactive in an app.
+
+This library requires `R2020b` or higher for full functionality.
 
 ## Examples
 
-### Deathstar
+### [Death Star](./test/fps_deathstar_example.m) (advanced  example)
 
-Let's start with a rather complex scene.  The visualization below was generated with [fps_deathstar_example.m](./test/fps_deathstar_example.m).  The demo illustrates how you can combine functions in this library to visualize some complicated geometry with a small number of handles (in the example it uses 4 line objects in total, and could be reduced to 3 with a little more effort).  All of the functions are vectorized and designed to work with many separate shapes at once.
+Let's start with a rather complex scene to get a feel for what you can do with these functions in practice.  The demo uses the `+fps` library to draw the entire scene using only 4 line objects in total (and it could easily be reduced to 3).
 
 ![](doc/deathstar.png)
 
+**Demo takeaways:**
+- if you're drawing multiple separate lines with the same format, you can simplify and vectorize your code with `+fps` functions
+- you can make multiple calls to `+fps` functions to generate a set of different shapes, then concatenate them as column vectors to plot as a single line object
+- while not really a shape, `fps.connect` is a quick way to draw lines connecting sets of points `P1` and `P2` (this was used to draw all the small laser beams)
+- any shape can be upsampled with the optional `N` argument; this changes the number of points per line from 2 to whatever you desire.  in the Death Star example I use this to define upsampled shapes in spherical coordinates, and then transform them to cartesian to be plotted.  without the upsampling the shapes would get mangled.  it also allows for visually-exact clipping of the hexagon grid with the enclosing circle.
 
-### Overview of basics with fps.circle
+### Overview of the basics with [fps.circle](./+fps/circle.m)
 
-First, use one of the `+fps` functions to define the data to be plotted:
+First, use one of the`+fps` functions to define the data to be plotted:
 
 ```
 radius = 0.5;
@@ -31,9 +31,9 @@ radius = 0.5;
 ```
 Let's take a look at what we get: ![](doc/workspace.jpg)
 
-Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will therefore request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default `fps.circle` uses N=100, with an extra vertex to close the shape and a `NaN` at the end as the line break.
+Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default `fps.circle` uses a [regular polygon](./+fps/regular_polygon.m) with 100 sides, with an extra vertex to close the shape and a `NaN` at the end as the line break.
 
-If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop; i.e. MATLAB iterates over each column and plots them as a separate object.  This is effectively the same as calling `plot` in a loop, which is relatively slow both because of the repeated calls to `plot` and because it results in a separate line object added to the axis for each circle.  It looks like this:
+If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop; i.e. MATLAB iterates over each column and plots them as a separate object.  This is effectively the same as calling `plot` in a loop, which is slow both because of the repeated calls to `plot` and because it results in a separate line object added to the axis for each circle.  It looks like this:
 ```
 % slow!
 plot(xdata, ydata)
