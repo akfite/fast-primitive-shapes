@@ -23,7 +23,7 @@ function [xdata, ydata] = cross(x, y, x_radius, y_radius, opts)
 %             midpoint of both lines
 %           - this is mainly useful if the line data will undergo some
 %             user-defined transformation, such as spherical to cartesian
-%             (see test/fps_example.m for an example)
+%             (see test/fps_deathstar_example.m for an example)
 %
 %       'Rotation' (=0) <1xN double>
 %           - the rotation of each cross about its center point

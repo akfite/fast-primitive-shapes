@@ -20,7 +20,7 @@ function [xd, yd] = grid(x, y, opts)
 %             midpoint of both lines
 %           - this is mainly useful if the line data will undergo some
 %             user-defined transformation, such as spherical to cartesian
-%             (see test/fps_example.m for an example)
+%             (see test/fps_deathstar_example.m for an example)
 %
 %   Outputs:
 %

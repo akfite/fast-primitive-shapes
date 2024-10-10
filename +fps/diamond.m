@@ -22,7 +22,7 @@ function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %           - the number of points used to draw each line in the diamond
 %           - this is mainly useful if the data will undergo some
 %             user-defined transformation, such as spherical to cartesian
-%             (see test/fps_example.m for an example)
+%             (see test/fps_deathstar_example.m for an example)
 %
 %       'Rotation' (=0) <1xN double>
 %           - the rotation of each ellipse about its center point

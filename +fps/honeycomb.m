@@ -23,7 +23,7 @@ function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, opts)
 %           - the number of points used to draw each line in each hexagon
 %           - this is mainly useful if the data will undergo some
 %             user-defined transformation, such as spherical to cartesian
-%             (see test/fps_example.m for an example)
+%             (see test/fps_deathstar_example.m for an example)
 %
 %   Outputs:
 %

@@ -27,7 +27,7 @@ function [xdata, ydata] = regular_polygon(x, y, x_radius, y_radius, n_sides, opt
 %             midpoint of each side of the polygon
 %           - this is mainly useful if the polygon data will undergo some
 %             user-defined transformation, such as spherical to cartesian
-%             (see test/fps_example.m for an example)
+%             (see test/fps_deathstar_example.m for an example)
 %
 %       'Rotation' (=0) <1x1 double>
 %           - the rotation of each polygon about its center point
