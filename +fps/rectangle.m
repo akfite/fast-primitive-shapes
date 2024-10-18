@@ -4,7 +4,7 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
 %   Usage:
 %
 %       [xdata, ydata] = FPS.RECTANGLE(x, y, opts...)
-%       [xdata, ydata] = FPS.RECTANGLE(x, y, r, opts...)
+%       [xdata, ydata] = FPS.RECTANGLE(x, y, radius, opts...)
 %       [xdata, ydata] = FPS.RECTANGLE(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:

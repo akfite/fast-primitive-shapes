@@ -4,8 +4,7 @@ function [xdata, ydata] = diamond(x, y, x_radius, y_radius, opts)
 %   Usage:
 %
 %       [xdata, ydata] = FPS.DIAMOND(x, y, opts...)
-%       [xdata, ydata] = FPS.DIAMOND(x, y, r, opts...)
-%       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius, opts...)
+%       [xdata, ydata] = FPS.DIAMOND(x, y, radius, opts...)
 %       [xdata, ydata] = FPS.DIAMOND(x, y, x_radius, y_radius, opts...)
 %
 %   Inputs:

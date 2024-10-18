@@ -11,7 +11,7 @@ function [xdata, ydata, x, y] = honeycomb(xlim, ylim, cell_radius, opts)
 %       xlim, ylim <1x2 double>
 %           - the x and y limits of the grid to generate
 %           - the lower-left corner will be the center of the first hexagon
-%             in the honeycombat
+%             in the honeycomb
 %
 %       radius <1x1 double>
 %           - the radius of the circle that circumscribes each honeycomb cell
