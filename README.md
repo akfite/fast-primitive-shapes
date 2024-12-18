@@ -29,7 +29,9 @@ radius = 0.5;
 [x, y] = meshgrid(1:10);
 [xdata, ydata] = fps.circle(x(:), y(:), radius);
 ```
-Let's take a look at what we get: ![](doc/workspace.jpg)
+Let's take a look at what we get: 
+
+![](doc/workspace.jpg)
 
 Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default `fps.circle` uses a [regular polygon](./+fps/regular_polygon.m) with 100 sides, with an extra vertex to close the shape and a `NaN` at the end as the line break.
 
