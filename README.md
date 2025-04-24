@@ -29,7 +29,7 @@ This library requires `R2020b` or higher for full functionality.
 Most functions support at least one of the two optional arguments:
 * `N` (=2)
     * The number of datapoints used to draw each line segment.
-    * You can increase this parameter to draw shapes with arbitrarily high-resolution.
+    * You can increase this parameter to draw shapes with arbitrarily-high resolution.
     * Often useful if the data will undergo a transform prior to plotting.
 * `Rotation` (=0)
     * The rotation, in degrees, for each shape.
