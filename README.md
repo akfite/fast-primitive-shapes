@@ -47,6 +47,12 @@ radius = 0.5;
 [x, y] = meshgrid(1:10);
 [xdata, ydata] = fps.circle(x(:), y(:), radius);
 ```
+<<<<<<< HEAD
+=======
+Let's take a look at what we get: 
+
+![](doc/workspace.jpg)
+>>>>>>> 760f4cdc5f4f4adbc6a61559fa462e4786be9fd7
 
 If you pass the 2D `xdata` and `ydata` arrays to `plot` as-is, you'll get a separate handle for each circle.  This is similar to calling `plot` in a for-loop:
 ```matlab
