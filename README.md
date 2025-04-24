@@ -6,48 +6,86 @@ These functions can be used for general plotting, but they really shine in cases
 
 This library requires `R2020b` or higher for full functionality.
 
-## Examples
+## Supported Primitives
 
-### [Death Star](./test/fps_deathstar_example.m) (advanced  example)
+* [circle](+fps/circle.m)
+* [connect](+fps/connect.m) *(connect sets of points in 2d or 3d)*
+* [cross](+fps/cross.m)
+* [diamond](+fps/diamond.m)
+* [ellipse](+fps/ellipse.m)
+* [grid](+fps/grid.m)
+* [hexagon](+fps/hexagon.m)
+* [honeycomb](+fps/honeycomb.m)
+* [line](+fps/line.m)
+* [mesh](+fps/mesh.m) *(convert `faces` & `vertices` to data that can be plotted as a `line`)*
+* [rectangle](+fps/rectangle.m)
+* [regular_polygon](+fps/regular_polygon.m) *(any n-sided polygon)*
+* [square](+fps/square.m)
+* [star](+fps/star.m) *(stars with any number of spikes)*
+* [vector](+fps/vector.m) *(lines from point & ray vectors)*
 
-Let's start with a rather complex scene to get a feel for what you can do with these functions in practice.  The demo uses the `+fps` library to draw the entire scene using only 4 line objects in total (and it could easily be reduced to 3).
+### Optional Arguments
 
-![](doc/deathstar.png)
+Most functions support at least one of the two optional arguments:
+* `N` (=2)
+    * The number of datapoints used to draw each line segment.
+    * You can increase this parameter to draw shapes with arbitrarily high-resolution.
+    * Often useful if the data will undergo a transform prior to plotting.
+* `Rotation` (=0)
+    * The rotation, in degrees, for each shape.
+    * Positive rotations are clockwise about the center of each shape.
+    * Can be a scalar (applied to all shapes) or a vector (applied separately to each shape)
 
-**Demo takeaways:**
-- if you're drawing multiple separate lines with the same format, you can simplify and vectorize your code with `+fps` functions
-- you can make multiple calls to `+fps` functions to generate a set of different shapes, then concatenate them as column vectors to plot as a single line object
-- while not really a shape, `fps.connect` is a quick way to draw lines connecting sets of points `P1` and `P2` (this was used to draw all the small laser beams)
-- any shape can be upsampled with the optional `N` argument; this changes the number of points per line from 2 to whatever you desire.  in the Death Star example I use this to define upsampled shapes in spherical coordinates, and then transform them to cartesian to be plotted.  without the upsampling the shapes would get mangled.  it also allows for visually-exact clipping of the hexagon grid with the enclosing circle.
+## Getting Started
 
-### Overview of the basics with [fps.circle](./+fps/circle.m)
+The functions in this library do not plot directly.  Instead, they return arrays of data ready to be passed directly to plotting functions such as `plot` and `line`.  This allows you to choose whether each discrete shape will have its own handle (slow, but supports multiple colors, separate legend entries, etc), or if all the shapes will be plotted as one merged object (much faster).
 
-First, use one of the`+fps` functions to define the data to be plotted:
+Let's start by plotting a 2d grid of circles:
 
-```
+```matlab
 radius = 0.5;
 [x, y] = meshgrid(1:10);
 [xdata, ydata] = fps.circle(x(:), y(:), radius);
 ```
-Let's take a look at what we get: ![](doc/workspace.jpg)
 
-Our meshgrid of x & y points results in a 10x10 grid, or 100 points in total.  Calling [fps.circle](+fps/circle.m) on those arrays will request the data required to plot 100 circles.  In `xdata` and `ydata`, that's why they both have 100 columns; each column encodes the data for a separate circle.  The rows index the datapoints that compose each circle.  They each have 102 elements because by default `fps.circle` uses a [regular polygon](./+fps/regular_polygon.m) with 100 sides, with an extra vertex to close the shape and a `NaN` at the end as the line break.
-
-If these arrays are passed as-is to `plot` or `line`, it works similarly to plotting the shapes one-by-one in a loop; i.e. MATLAB iterates over each column and plots them as a separate object.  This is effectively the same as calling `plot` in a loop, which is slow both because of the repeated calls to `plot` and because it results in a separate line object added to the axis for each circle.  It looks like this:
+If you pass the 2D `xdata` and `ydata` arrays to `plot` as-is, you'll get a separate handle for each circle.  This is similar to calling `plot` in a for-loop:
+```matlab
+figure;
+plot(xdata, ydata);
+legend; axis tight;
 ```
-% slow!
-plot(xdata, ydata)
-```
+<img src="./doc/circles_multi.png" width="75%"/>
 
-![](doc/circles_multi.png)
-
-But, if we want to take advantage of the power of these functions, we'll need to reshape `xdata` and `ydata` to column vectors using the `colon` operator.  This will interleave `NaN`s between the shapes, which will result in all of the shapes plotted under a single handle--much faster!
-
+To accelerate your plotting performance, plot them as one object by flushing the 2D `xdata` and `ydata` arrays to column vectors with the `colon` operator.  This interleaves NaNs in your data, which act as line breaks:
+```matlab
+figure;
+plot(xdata(:), ydata(:)); % note the "(:)" -- this reshapes the 2D matrix to column vector
+legend; axis tight;
 ```
-% fast!
-plot(xdata(:), ydata(:))
+<img src="./doc/circles_one.png" width="75%"/>
+
+The outputs of any function in `+fps` can be reshaped to a vector and concatenated with any other to merge plotted objects under a single handle.  We'll illustrate by adding a star with a random rotation inside each of the circles--still plotted as a single object.
+
+```matlab
+radius = 0.5;
+[x, y] = meshgrid(1:10);
+[xd_circle, yd_circle] = fps.circle(x(:), y(:), radius);
+[xd_star, yd_star] = fps.star(x(:), y(:), radius, radius/3, 5, 'Rotation', randi(360, [numel(x), 1]));
+
+xd = vertcat(xd_circle(:), xd_star(:));
+yd = vertcat(yd_circle(:), yd_star(:));
+
+figure;
+plot(xd, yd); % already column vectors
+legend; axis tight;
 ```
-![](doc/circles_one.png)
+<img src="./doc/circles_star.png" width="75%"/>
+
+## Advanced Example: [Death Star](./test/fps_deathstar_example.m)
+
+This is a somewhat complex scene included to get a feel for what you can do with these functions in practice.  The demo uses the `+fps` library to draw the entire scene using only 4 line objects in total (and it could be reduced to 3 with a little more effort).
+
+![](doc/deathstar.png)
 
 ## Benchmark
 
