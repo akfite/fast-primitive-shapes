@@ -1,10 +1,10 @@
-function varargout = connect(p1, p2, N)
+function varargout = connect(p1, p2, opts)
 %CONNECT Draw lines connecting arrays of points p1 and p2.
 %
 %   Usage:
 %
 %       [xdata, ydata, ...] = FPS.CONNECT(p1, p2)
-%       [xdata, ydata, ...] = FPS.CONNECT(p1, p2, N)
+%       [xdata, ydata, ...] = FPS.CONNECT(p1, p2, opts...)
 %
 %   Inputs:
 %
@@ -14,8 +14,13 @@ function varargout = connect(p1, p2, N)
 %             to plot 10 separate 3-dimensional lines.  likewise for
 %             10x2 input, we'll create 10 separate 2-dimensional lines
 %
-%       N (=2) <1x1 integer>
-%           - the number of points used to draw each line
+%   Inputs (optional param-value pairs):
+%
+%       'N' (=2) <1x1 uint32>
+%           - the number of points used to draw each line in the diamond
+%           - this is mainly useful if the data will undergo some
+%             user-defined transformation, such as spherical to cartesian
+%             (see test/fps_deathstar_example.m for an example)
 %
 %   Outputs:
 %
@@ -34,11 +39,10 @@ function varargout = connect(p1, p2, N)
 %
 %   Examples:
 %
-%       [x, y] = fps.circle(0, 0, 1, 'N', 20);
+%       [x, y] = fps.circle(0, 0, 1, N=20);
 %
 %       % connnect the points in the circle to the center
-%       N = 3;
-%       [xd, yd] = fps.connect([x(:) y(:)], [0 0], N);
+%       [xd, yd] = fps.connect([x(:) y(:)], [0 0], N=3);
 %
 %       figure;
 %       plot(xd(:), yd(:), '.-');
@@ -48,7 +52,7 @@ function varargout = connect(p1, p2, N)
     arguments
         p1(:,:) double
         p2(:,:) double
-        N(1,1) uint32 = 2
+        opts.N(1,1) uint32 = 2
     end
 
     assert(size(p1,2) == size(p2,2), ...
@@ -79,8 +83,8 @@ function varargout = connect(p1, p2, N)
             ];
     end
 
-    if N > 2
-        [varargout{1:nargout}] = fps.internal.upsample(N, varargout{:});
+    if opts.N > 2
+        [varargout{1:nargout}] = fps.internal.upsample(opts.N, varargout{:});
     end
 
 end
