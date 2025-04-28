@@ -17,7 +17,7 @@ function varargout = connect(p1, p2, opts)
 %   Inputs (optional param-value pairs):
 %
 %       'N' (=2) <1x1 uint32>
-%           - the number of points used to draw each line in the diamond
+%           - the number of points used to draw each line
 %           - this is mainly useful if the data will undergo some
 %             user-defined transformation, such as spherical to cartesian
 %             (see test/fps_deathstar_example.m for an example)
