@@ -19,6 +19,7 @@ This library requires `R2020b` or higher for full functionality.
 * [line](+fps/line.m)
 * [mesh](+fps/mesh.m) *(convert `faces` & `vertices` to data that can be plotted as a `line`)*
 * [rectangle](+fps/rectangle.m)
+* [rectangle_xywh](+fps/rectangle_xywh.m)
 * [regular_polygon](+fps/regular_polygon.m) *(any n-sided polygon)*
 * [square](+fps/square.m)
 * [star](+fps/star.m) *(stars with any number of spikes)*
