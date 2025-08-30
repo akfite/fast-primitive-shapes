@@ -64,10 +64,15 @@ function [xdata, ydata] = rectangle(x, y, x_radius, y_radius, opts)
 
     % validate inputs are uniformly-sized
     sz = [length(x), length(y), length(x_radius), length(y_radius)];
-    assert(all(sz == sz(1) | sz == 1), ...
-        'fps:nonuniform_input', ...
-        'Inputs must be the same size or scalar (lengths = [%d, %d, %d, %d])', ...
-        sz(1), sz(2), sz(3), sz(4));
+    non_scalar_sizes = sz(sz > 1);
+
+    % Check that all non-scalar inputs have the same size
+    if ~isempty(non_scalar_sizes) && ~all(non_scalar_sizes == non_scalar_sizes(1))
+        assert(false, ...
+            'fps:nonuniform_input', ...
+            'All non-scalar inputs must have the same size (lengths = [%d, %d, %d, %d])', ...
+            sz(1), sz(2), sz(3), sz(4));
+    end
 
     % expand scalars
     nrep = max(sz);
